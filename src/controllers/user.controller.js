@@ -152,7 +152,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     if (incomingRefreshToken !== user?.refreshToken) {
       throw new ApiError(401, "Refresh token is expired or used");
     }
-  
+
     const { accessToken, newRefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
 
@@ -173,12 +173,17 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
   const user = await User.findById(req.user?._id);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
   if (!isPasswordCorrect) {
     throw new ApiError(400, "Invalid old Password");
   }
   user.password = newPassword;
-  await user.save({ validateBeforeSave: false });
+  await user.save();
   return res
     .status(200)
     .json(new ApiResponse(200, {}, "Password Changed Successfully"));
