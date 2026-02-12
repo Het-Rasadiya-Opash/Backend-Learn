@@ -3,9 +3,14 @@ import { Comment } from "../models/comment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Video } from "../models/video.model.js";
 
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
+  const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
   const { page = 1, limit = 10 } = req.query;
   const options = {
     page: parseInt(page, 10),
@@ -13,7 +18,8 @@ const getVideoComments = asyncHandler(async (req, res) => {
     sort: { createdAt: -1 },
     populate: { path: "owner", select: "username avatar" },
   };
-  const comments = await Comment.paginate({ video: videoId }, options);
+  const comments = await Comment.paginate({ video: videoId }, options); // find() skip() limit() sort() populate() are handled by paginate()
+
   res
     .status(200)
     .json(new ApiResponse(200, comments, "Comments fetched successfully"));
@@ -21,6 +27,10 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
 const addComment = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
+  const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
   const { content } = req.body;
   if (!content) {
     throw new ApiError(400, "Content is required");
@@ -37,6 +47,7 @@ const addComment = asyncHandler(async (req, res) => {
 
 const updateComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
+
   const { content } = req.body;
   if (!content) {
     throw new ApiError(400, "Content is required");
@@ -46,6 +57,12 @@ const updateComment = asyncHandler(async (req, res) => {
     { content },
     { new: true }
   );
+  if (!comment) {
+    throw new ApiError(
+      404,
+      "Comment not found or you don't have permission to update it"
+    );
+  }
   res
     .status(200)
     .json(new ApiResponse(200, comment, "Comment updated successfully"));
