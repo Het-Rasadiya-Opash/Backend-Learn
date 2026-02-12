@@ -45,6 +45,11 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
     "subscriber",
     "username email"
   );
+  if (subscribers.length === 0) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "No subscribers found for this channel"));
+  }
   return res
     .status(200)
     .json(
@@ -61,6 +66,13 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
   const subscriptions = await Subscription.find({
     subscriber: subscriberId,
   }).populate("channel", "username email");
+  if (subscriptions.length === 0) {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, [], "No subscribed channels found for this user")
+      );
+  }
   const channels = subscriptions.map((sub) => sub.channel);
   return res
     .status(200)
