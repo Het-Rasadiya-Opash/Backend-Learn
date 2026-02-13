@@ -21,7 +21,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     ];
   }
 
-  if (userId && userId !== "undefined" && isValidObjectId(userId)) {
+  if (userId) {
     filter.owner = userId;
   }
 
