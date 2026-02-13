@@ -3,6 +3,7 @@
 ## Models Description
 
 ### User Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -20,6 +21,7 @@
 ```
 
 ### Video Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -37,6 +39,7 @@
 ```
 
 ### Comment Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -49,6 +52,7 @@
 ```
 
 ### Like Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -62,6 +66,7 @@
 ```
 
 ### Playlist Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -75,6 +80,7 @@
 ```
 
 ### Subscription Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -86,6 +92,7 @@
 ```
 
 ### Tweet Model
+
 ```javascript
 {
   _id: ObjectId,
@@ -98,26 +105,12 @@
 
 ## API Endpoints & Controller Responses
 
-### Health Check
-**Base URL:** `/api/v1/healthcheck`
-
-#### GET /
-- **Description:** Check API health status
-- **Authentication:** None
-- **Response:**
-```json
-{
-  "statusCode": 200,
-  "data": {},
-  "message": "OK",
-  "success": true
-}
-```
-
 ### User Management
+
 **Base URL:** `/api/v1/users`
 
 #### POST /register
+
 - **Description:** Register new user
 - **Authentication:** None
 - **Body:** `multipart/form-data`
@@ -128,6 +121,7 @@
   - `avatar`: File (required)
   - `coverImage`: File (optional)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -148,16 +142,20 @@
 ```
 
 #### POST /login
+
 - **Description:** User login
 - **Authentication:** None
 - **Body:**
+
 ```json
 {
   "email": "john@example.com", // or username
   "password": "password123"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -180,9 +178,11 @@
 ```
 
 #### POST /logout
+
 - **Description:** User logout
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -193,15 +193,19 @@
 ```
 
 #### POST /refresh-token
+
 - **Description:** Refresh access token
 - **Authentication:** None
 - **Body:**
+
 ```json
 {
   "refreshToken": "jwt_refresh_token"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -215,16 +219,20 @@
 ```
 
 #### POST /change-password
+
 - **Description:** Change user password
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "oldPassword": "old_password",
   "newPassword": "new_password"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -235,9 +243,11 @@
 ```
 
 #### GET /current-user
+
 - **Description:** Get current user details
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -256,16 +266,20 @@
 ```
 
 #### PATCH /update-account
+
 - **Description:** Update user account details
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "fullName": "Updated Name",
   "email": "updated@example.com"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -283,11 +297,13 @@
 ```
 
 #### PATCH /avatar
+
 - **Description:** Update user avatar
 - **Authentication:** Required (JWT)
 - **Body:** `multipart/form-data`
   - `avatar`: File
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -305,11 +321,13 @@
 ```
 
 #### PATCH /cover-image
+
 - **Description:** Update user cover image
 - **Authentication:** Required (JWT)
 - **Body:** `multipart/form-data`
   - `coverImage`: File
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -327,9 +345,11 @@
 ```
 
 #### GET /c/:username
+
 - **Description:** Get user channel profile
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -350,9 +370,11 @@
 ```
 
 #### GET /history
+
 - **Description:** Get user watch history
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -379,9 +401,11 @@
 ```
 
 ### Video Management
+
 **Base URL:** `/api/v1/videos`
 
 #### GET /
+
 - **Description:** Get all videos with pagination
 - **Authentication:** Required (JWT)
 - **Query Parameters:**
@@ -392,6 +416,7 @@
   - `sortType`: String (asc/desc)
   - `userId`: String (filter by user)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -428,6 +453,7 @@
 ```
 
 #### POST /
+
 - **Description:** Upload a new video
 - **Authentication:** Required (JWT)
 - **Body:** `multipart/form-data`
@@ -436,6 +462,7 @@
   - `videoFile`: File
   - `thumbnail`: File
 - **Response:**
+
 ```json
 {
   "statusCode": 201,
@@ -457,9 +484,11 @@
 ```
 
 #### GET /:videoId
+
 - **Description:** Get video by ID
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -486,6 +515,7 @@
 ```
 
 #### PATCH /:videoId
+
 - **Description:** Update video details
 - **Authentication:** Required (JWT)
 - **Body:** `multipart/form-data`
@@ -493,6 +523,7 @@
   - `description`: String (optional)
   - `thumbnail`: File (optional)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -513,9 +544,11 @@
 ```
 
 #### DELETE /:videoId
+
 - **Description:** Delete video
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -526,9 +559,11 @@
 ```
 
 #### PATCH /toggle/publish/:videoId
+
 - **Description:** Toggle video publish status
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -542,15 +577,18 @@
 ```
 
 ### Comment Management
+
 **Base URL:** `/api/v1/comments`
 
 #### GET /:videoId
+
 - **Description:** Get comments for a video
 - **Authentication:** Required (JWT)
 - **Query Parameters:**
   - `page`: Number (default: 1)
   - `limit`: Number (default: 10)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -580,15 +618,19 @@
 ```
 
 #### POST /:videoId
+
 - **Description:** Add comment to video
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "content": "This is a great video!"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 201,
@@ -605,15 +647,19 @@
 ```
 
 #### PATCH /c/:commentId
+
 - **Description:** Update comment
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "content": "Updated comment content"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -630,9 +676,11 @@
 ```
 
 #### DELETE /c/:commentId
+
 - **Description:** Delete comment
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -643,12 +691,15 @@
 ```
 
 ### Like Management
+
 **Base URL:** `/api/v1/likes`
 
 #### POST /toggle/v/:videoId
+
 - **Description:** Toggle like on video
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -662,9 +713,11 @@
 ```
 
 #### POST /toggle/c/:commentId
+
 - **Description:** Toggle like on comment
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -678,9 +731,11 @@
 ```
 
 #### POST /toggle/t/:tweetId
+
 - **Description:** Toggle like on tweet
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -694,9 +749,11 @@
 ```
 
 #### GET /videos
+
 - **Description:** Get liked videos by user
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -723,19 +780,24 @@
 ```
 
 ### Playlist Management
+
 **Base URL:** `/api/v1/playlist`
 
 #### POST /
+
 - **Description:** Create new playlist
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "name": "My Playlist",
   "description": "Collection of my favorite videos"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 201,
@@ -753,9 +815,11 @@
 ```
 
 #### GET /:playlistId
+
 - **Description:** Get playlist by ID
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -786,16 +850,20 @@
 ```
 
 #### PATCH /:playlistId
+
 - **Description:** Update playlist
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "name": "Updated Playlist Name",
   "description": "Updated description"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -812,9 +880,11 @@
 ```
 
 #### DELETE /:playlistId
+
 - **Description:** Delete playlist
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -825,9 +895,11 @@
 ```
 
 #### PATCH /add/:videoId/:playlistId
+
 - **Description:** Add video to playlist
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -842,9 +914,11 @@
 ```
 
 #### PATCH /remove/:videoId/:playlistId
+
 - **Description:** Remove video from playlist
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -859,9 +933,11 @@
 ```
 
 #### GET /user/:userId
+
 - **Description:** Get user playlists
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -881,12 +957,15 @@
 ```
 
 ### Subscription Management
+
 **Base URL:** `/api/v1/subscriptions`
 
 #### GET /c/:channelId
+
 - **Description:** Get channel subscribers
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -908,9 +987,11 @@
 ```
 
 #### POST /c/:channelId
+
 - **Description:** Toggle subscription to channel
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -924,9 +1005,11 @@
 ```
 
 #### GET /u/:subscriberId
+
 - **Description:** Get subscribed channels
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -946,18 +1029,23 @@
 ```
 
 ### Tweet Management
+
 **Base URL:** `/api/v1/tweets`
 
 #### POST /
+
 - **Description:** Create new tweet
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "content": "This is my first tweet!"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 201,
@@ -973,12 +1061,14 @@
 ```
 
 #### GET /user/:userId
+
 - **Description:** Get user tweets
 - **Authentication:** Required (JWT)
 - **Query Parameters:**
   - `page`: Number (default: 1)
   - `limit`: Number (default: 10)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -1009,15 +1099,19 @@
 ```
 
 #### PATCH /:tweetId
+
 - **Description:** Update tweet
 - **Authentication:** Required (JWT)
 - **Body:**
+
 ```json
 {
   "content": "Updated tweet content"
 }
 ```
+
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -1033,9 +1127,11 @@
 ```
 
 #### DELETE /:tweetId
+
 - **Description:** Delete tweet
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -1046,12 +1142,15 @@
 ```
 
 ### Dashboard
+
 **Base URL:** `/api/v1/dashboard`
 
 #### GET /stats/:channelId
+
 - **Description:** Get channel statistics
 - **Authentication:** Required (JWT)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -1068,12 +1167,14 @@
 ```
 
 #### GET /videos/:channelId
+
 - **Description:** Get channel videos
 - **Authentication:** Required (JWT)
 - **Query Parameters:**
   - `page`: Number (default: 1)
   - `limit`: Number (default: 10)
 - **Response:**
+
 ```json
 {
   "statusCode": 200,
@@ -1103,6 +1204,7 @@
 ## Error Response Format
 
 All error responses follow this format:
+
 ```json
 {
   "statusCode": 400,
@@ -1116,6 +1218,7 @@ All error responses follow this format:
 ## Authentication
 
 Most endpoints require JWT authentication. Include the access token in:
+
 - **Cookie:** `accessToken=your_jwt_token`
 - **Header:** `Authorization: Bearer your_jwt_token`
 
@@ -1126,6 +1229,7 @@ File uploads use `multipart/form-data` encoding and are processed through Multer
 ## Pagination
 
 Paginated responses include:
+
 - `docs`: Array of documents
 - `totalDocs`: Total number of documents
 - `limit`: Number of documents per page
