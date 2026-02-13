@@ -10,23 +10,18 @@ import commentRouter from "./routes/comment.routes.js";
 import likeRouter from "./routes/like.routes.js";
 import playlistRouter from "./routes/playlist.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
 app.use(express.static("public"));
-app.use(cors(
-  {
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  }
-));
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/tweets", tweetRouter);
