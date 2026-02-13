@@ -21,10 +21,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     ];
   }
 
-  if (userId) {
-    if (!isValidObjectId(userId)) {
-      throw new ApiError(400, "Invalid userId");
-    }
+  if (userId && userId !== "undefined" && isValidObjectId(userId)) {
     filter.owner = userId;
   }
 
@@ -66,7 +63,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Title and Description are required");
   }
 
-  if (!req.files || !req.files.videoFile || !req.files.thumbnail) {
+  if (!req.files?.videoFile?.[0] || !req.files?.thumbnail?.[0]) {
     throw new ApiError(400, "Video file and thumbnail are required");
   }
 
@@ -97,7 +94,11 @@ const getVideoById = asyncHandler(async (req, res) => {
   if (!isValidObjectId(videoId)) {
     throw new ApiError(400, "Invalid videoId");
   }
-  const video = await Video.findById(videoId).populate("owner", "name email");
+  const video = await Video.findByIdAndUpdate(
+    videoId,
+    { $inc: { views: 1 } },
+    { new: true }
+  ).populate("owner", "username email");
   if (!video) {
     throw new ApiError(404, "Video not found");
   }
@@ -107,8 +108,6 @@ const getVideoById = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(403, "You are not authorized to view this video");
   }
-  video.views += 1;
-  await video.save();
   return res
     .status(200)
     .json(new ApiResponse(200, video, "Video fetched successfully"));
@@ -133,8 +132,8 @@ const updateVideo = asyncHandler(async (req, res) => {
   if (description) {
     video.description = description;
   }
-  if (req.file) {
-    const thumbnailUploadResult = await uploadOnCloudinary(req.file.path);
+  if (req.files?.thumbnail?.[0]) {
+    const thumbnailUploadResult = await uploadOnCloudinary(req.files.thumbnail[0].path);
     if (!thumbnailUploadResult) {
       throw new ApiError(500, "Failed to upload thumbnail");
     }
