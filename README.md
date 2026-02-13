@@ -63,7 +63,6 @@ For comprehensive API documentation including all endpoints, models, and control
 
 ### Quick API Overview
 
-- **Health Check:** `/api/v1/healthcheck`
 - **User Management:** `/api/v1/users`
 - **Video Management:** `/api/v1/videos`
 - **Comment System:** `/api/v1/comments`
