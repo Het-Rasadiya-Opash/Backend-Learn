@@ -285,7 +285,7 @@ const getUserChannelPorfile = asyncHandler(async (req, res) => {
   if (!username?.trim()) {
     throw new ApiError(400, "Username is missing");
   }
-  
+
   const channel = await User.aggregate([
     {
       $match: {
@@ -304,7 +304,7 @@ const getUserChannelPorfile = asyncHandler(async (req, res) => {
       $lookup: {
         from: "subscriptions",
         localField: "_id",
-        foreignField: "subscribedTo",
+        foreignField: "subscriber",
         as: "subscribedTo",
       },
     },
