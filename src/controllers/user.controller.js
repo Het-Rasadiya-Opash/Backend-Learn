@@ -285,6 +285,7 @@ const getUserChannelPorfile = asyncHandler(async (req, res) => {
   if (!username?.trim()) {
     throw new ApiError(400, "Username is missing");
   }
+  
   const channel = await User.aggregate([
     {
       $match: {
