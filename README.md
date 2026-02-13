@@ -63,11 +63,11 @@ For comprehensive API documentation including all endpoints, models, and control
 
 ### Quick API Overview
 
-- **User Management:** `/api/v1/users`
-- **Video Management:** `/api/v1/videos`
-- **Comment System:** `/api/v1/comments`
-- **Like System:** `/api/v1/likes`
-- **Playlist Management:** `/api/v1/playlist`
-- **Subscription System:** `/api/v1/subscriptions`
-- **Tweet System:** `/api/v1/tweets`
-- **Dashboard Analytics:** `/api/v1/dashboard`
+- **User Management:** `/api/v1/users` - Registration, login, logout, profile management
+- **Video Management:** `/api/v1/videos` - Upload, update, delete, fetch videos
+- **Comment System:** `/api/v1/comments` - Add, update, delete comments
+- **Like System:** `/api/v1/likes` - Like/unlike videos, comments, tweets
+- **Playlist Management:** `/api/v1/playlist` - Create, manage playlists
+- **Subscription System:** `/api/v1/subscriptions` - Subscribe/unsubscribe to channels
+- **Tweet System:** `/api/v1/tweets` - Create, update, delete tweets
+- **Dashboard Analytics:** `/api/v1/dashboard` - Channel statistics and analytics
