@@ -69,6 +69,11 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
   const videoFile = req.files.videoFile[0];
   const thumbnailFile = req.files.thumbnail[0];
+
+  if (!videoFile?.path || !thumbnailFile?.path) {
+    throw new ApiError(400, "Invalid file upload");
+  }
+
   const [videoUploadResult, thumbnailUploadResult] = await Promise.all([
     uploadOnCloudinary(videoFile.path),
     uploadOnCloudinary(thumbnailFile.path),
@@ -94,20 +99,17 @@ const getVideoById = asyncHandler(async (req, res) => {
   if (!isValidObjectId(videoId)) {
     throw new ApiError(400, "Invalid videoId");
   }
-  const video = await Video.findByIdAndUpdate(
-    videoId,
-    { $inc: { views: 1 } },
-    { new: true }
-  ).populate("owner", "username email");
+  const video = await Video.findById(videoId).populate("owner", "username email");
   if (!video) {
     throw new ApiError(404, "Video not found");
   }
-  if (
-    !video.isPublished &&
-    video.owner._id.toString() !== req.user._id.toString()
-  ) {
+  if (!video.isPublished && req.user && video.owner?._id?.toString() !== req.user?._id?.toString()) {
     throw new ApiError(403, "You are not authorized to view this video");
   }
+  
+  await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+  video.views += 1;
+  
   return res
     .status(200)
     .json(new ApiResponse(200, video, "Video fetched successfully"));
@@ -133,7 +135,11 @@ const updateVideo = asyncHandler(async (req, res) => {
     video.description = description;
   }
   if (req.files?.thumbnail?.[0]) {
-    const thumbnailUploadResult = await uploadOnCloudinary(req.files.thumbnail[0].path);
+    const thumbnailFile = req.files.thumbnail[0];
+    if (!thumbnailFile.path) {
+      throw new ApiError(400, "Invalid thumbnail file");
+    }
+    const thumbnailUploadResult = await uploadOnCloudinary(thumbnailFile.path);
     if (!thumbnailUploadResult) {
       throw new ApiError(500, "Failed to upload thumbnail");
     }
