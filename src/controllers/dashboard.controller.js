@@ -33,7 +33,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
 
   res
     .status(200)
-    .json(new ApiResponse(true, "Channel stats fetched successfully", stats));
+    .json(new ApiResponse(200, stats, "Channel stats fetched successfully"));
 });
 
 const getChannelVideos = asyncHandler(async (req, res) => {
